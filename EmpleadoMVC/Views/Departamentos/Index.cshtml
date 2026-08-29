@@ -1,0 +1,50 @@
+﻿@model EmpleadoMVC.ViewModels.Departamentos.DepartamentoListViewModel
+@{
+    ViewData["Title"] = "Departamentos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Departamentos</h2>
+    <a asp-action="Create" class="btn btn-success">+ Nuevo departamento</a>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th style="width:60px;">#</th>
+            <th>Nombre</th>
+            <th style="width:160px;" class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.Departamentos)
+        {
+            <tr>
+                <td>@d.DepartamentoID</td>
+                <td>@d.Nombre</td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@d.DepartamentoID"
+                       class="btn btn-sm btn-warning">Editar</a>
+
+                    <form asp-action="Delete" asp-route-id="@d.DepartamentoID"
+                          method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('¿Eliminar el departamento @d.Nombre?')">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+
+        @if (!Model.Departamentos.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center text-muted py-3">
+                    No hay departamentos registrados.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

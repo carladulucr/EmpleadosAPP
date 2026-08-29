@@ -1,0 +1,107 @@
+﻿@model EmpleadoMVC.ViewModels.Empleados.EmpleadoListViewModel
+@{
+    ViewData["Title"] = "Empleados";
+}
+
+<h2>Gestión de Empleados</h2>
+
+@* Formulario de búsqueda — método GET para que vaya en el query string *@
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-3">
+        <input type="text" name="search" value="@Model.Search"
+               class="form-control" placeholder="Buscar por nombre..." />
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="apellido" value="@Model.Apellido"
+               class="form-control" placeholder="Buscar por apellido..." />
+    </div>
+    <div class="col-md-3">
+        <input type="date" name="fechaContratacion" value="@Model.FechaContratacion"
+               class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+    </div>
+</form>
+
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <a asp-action="Create" class="btn btn-success">+ Nuevo Empleado</a>
+    <span class="text-muted">@Model.Pagination.Total empleados registrados</span>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Departamento</th>
+            <th>Puesto</th>
+            <th class="col-price">Salario</th>
+            <th>Estado</th>
+            <th class="col-actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model.Empleados)
+        {
+            <tr>
+                <td>@emp.Nombre</td>
+                <td>@emp.Apellido</td>
+                <td>@emp.Departamento</td>
+                <td>@emp.Puesto</td>
+                <td class="col-price">@emp.Salario.ToString("N2")</td>
+                <td>
+                    <span class="badge @(emp.Estado == "Activo" ? "bg-success" :
+                                                                   emp.Estado == "Inactivo" ? "bg-warning text-dark" : "bg-danger")">
+                    @emp.Estado
+                </span>
+            </td>
+            <td class="col-actions">
+                <a asp-action="Details" asp-route-id="@emp.EmpleadoID" class="btn btn-sm btn-info">Ver</a>
+                <a asp-action="Edit" asp-route-id="@emp.EmpleadoID" class="btn btn-sm btn-warning">Editar</a>
+                <a asp-action="UploadPhoto" asp-route-id="@emp.EmpleadoID" class="btn btn-sm btn-secondary">Foto</a>
+
+                @if (emp.Estado == "Activo")
+                    {
+                        <form asp-action="Desactivar" asp-route-id="@emp.EmpleadoID" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-warning"
+                                    onclick="return confirm('¿Desactivar a @emp.Nombre?')">
+                                Desactivar
+                            </button>
+                        </form>
+                    }
+                    else if (emp.Estado == "Inactivo")
+                    {
+                        <form asp-action="Reactivar" asp-route-id="@emp.EmpleadoID" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-success"
+                                    onclick="return confirm('¿Reactivar a @emp.Nombre?')">
+                                Reactivar
+                            </button>
+                        </form>
+                    }
+
+                    <form asp-action="Despedir" asp-route-id="@emp.EmpleadoID" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('¿Despedir a @emp.Nombre? Esta acción no se puede deshacer.')">
+                            Despedir
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7" class="text-end text-muted">
+                Total: @Model.Pagination.Total empleados
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+@* Vista parcial reutilizable  *@
+<partial name="_Pagination" model="Model.Pagination" />
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/empleados.css" />
+}

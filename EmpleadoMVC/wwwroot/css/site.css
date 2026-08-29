@@ -1,0 +1,43 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Precios y salarios alineados a la derecha con ancho fijo */
+.col-price {
+    width: 130px;
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Botones de acción en la tabla con margen entre ellos */
+.table td .btn {
+    margin: 1px;
+}
+
+/* Foto circular en Details */
+.foto-empleado {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #dee2e6;
+}

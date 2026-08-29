@@ -1,0 +1,32 @@
+﻿@model EmpleadoMVC.ViewModels.Departamentos.DepartamentoFormViewModel
+@{
+    ViewData["Title"] = $"Editar — {Model.Nombre}";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Editar Departamento</h2>
+
+        @if (Model.Exception != null)
+        {
+            <div class="alert alert-danger">
+                <strong>Error:</strong> @Model.Exception.Message
+            </div>
+        }
+
+        <form asp-action="Edit" asp-route-id="@Model.DepartamentoID" method="post">
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-warning">Guardar cambios</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

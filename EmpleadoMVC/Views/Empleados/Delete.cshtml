@@ -1,0 +1,22 @@
+﻿@model EmpleadoMVC.ViewModels.Empleados.EmpleadoViewModel
+@{
+    ViewData["Title"] = "Confirmar eliminación";
+}
+
+<h2>Confirmar eliminación</h2>
+<div class="alert alert-danger">
+    ¿Estás seguro de que deseas eliminar a <strong>@Model.Nombre @Model.Apellido</strong>?
+    Esta acción no se puede deshacer.
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Departamento</dt>
+    <dd class="col-sm-9">@Model.Departamento</dd>
+    <dt class="col-sm-3">Puesto</dt>
+    <dd class="col-sm-9">@Model.Puesto</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.EmpleadoID" method="post">
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

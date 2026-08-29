@@ -1,0 +1,50 @@
+﻿@model EmpleadoMVC.ViewModels.Empleados.EmpleadoViewModel
+@{
+    ViewData["Title"] = $"Detalles — {Model.Nombre}";
+}
+
+<h2>Detalles del Empleado</h2>
+
+<div class="card">
+    <div class="card-body">
+        @if (!string.IsNullOrEmpty(Model.FotografiaRuta))
+        {
+            <img src="@Url.Action("VerFotografia", "Empleados", new { id = Model.EmpleadoID })"
+                 class="rounded-circle mb-3" width="120" height="120"
+                 style="object-fit: cover;" alt="Foto de @Model.Nombre" />
+        }
+        <dl class="row">
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model.Nombre @Model.Apellido</dd>
+            <dt class="col-sm-3">Departamento</dt>
+            <dd class="col-sm-9">@Model.Departamento</dd>
+            <dt class="col-sm-3">Puesto</dt>
+            <dd class="col-sm-9">@Model.Puesto</dd>
+            <dt class="col-sm-3">Salario</dt>
+            <dd class="col-sm-9">@Model.Salario.ToString("N2")</dd>
+            <dt class="col-sm-3">Fecha nacimiento</dt>
+            <dd class="col-sm-9">@Model.FechaNacimiento</dd>
+            <dt class="col-sm-3">Fecha contratación</dt>
+            <dd class="col-sm-9">@Model.FechaContratacion</dd>
+            <dt class="col-sm-3">Dirección</dt>
+            <dd class="col-sm-9">@Model.Direccion</dd>
+            <dt class="col-sm-3">Teléfono</dt>
+            <dd class="col-sm-9">@Model.Telefono</dd>
+            <dt class="col-sm-3">Correo</dt>
+            <dd class="col-sm-9">@Model.CorreoElectronico</dd>
+            <dt class="col-sm-3">Estado</dt>
+            <dd class="col-sm-9">
+                <span class="badge @(Model.Estado == "Activo" ? "bg-success" :
+                                                           Model.Estado == "Inactivo" ? "bg-warning text-dark" : "bg-danger")">
+                    @Model.Estado
+                </span>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.EmpleadoID" class="btn btn-warning">Editar</a>
+    <a asp-action="UploadPhoto" asp-route-id="@Model.EmpleadoID" class="btn btn-secondary">Cambiar foto</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</div>

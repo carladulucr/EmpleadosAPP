@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Subir fotografía";
+}
+
+<h2>Fotografía de @ViewBag.EmpleadoNombre</h2>
+
+@* Formulario con enctype multipart - obligatorio para archivos, igual que el profe explicó *@
+<form asp-action="UploadPhoto" asp-route-id="@ViewBag.EmpleadoID"
+      method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label class="form-label">Seleccionar imagen</label>
+        <input type="file" name="foto" class="form-control"
+               accept=".jpg,.jpeg,.png" />
+        <span class="text-danger">@ViewData.ModelState["foto"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Subir fotografía</button>
+    <a asp-action="Details" asp-route-id="@ViewBag.EmpleadoID" class="btn btn-secondary">Cancelar</a>
+</form>

@@ -1,0 +1,46 @@
+﻿@model EmpleadoMVC.ViewModels.PaginacionInfo
+
+<nav>
+    <ul class="pagination justify-content-center">
+
+        @* Botón Previous — se deshabilita en la primera página *@
+        @if (Model.Page <= 1)
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Anterior</span>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" asp-route-page="@(Model.Page - 1)">Anterior</a>
+            </li>
+        }
+
+        @* Números de página *@
+        @for (int i = 1; i <= Model.Pages; i++)
+        {
+            <li class="page-item @(i == Model.Page ? "active" : "")">
+                <a class="page-link" asp-route-page="@i">@i</a>
+            </li>
+        }
+
+        @* Botón Next — se deshabilita en la última página *@
+        @if (Model.Page >= Model.Pages)
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Siguiente</span>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" asp-route-page="@(Model.Page + 1)">Siguiente</a>
+            </li>
+        }
+
+    </ul>
+</nav>
+<p class="text-center text-muted">
+    Mostrando página @Model.Page de @Model.Pages — @Model.Total empleados en total
+</p>
